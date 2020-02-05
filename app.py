@@ -121,6 +121,7 @@ def logout():
 ##############################################################################
 # General user routes:
 
+
 @app.route('/users')
 def list_users():
     """Page with listing of users.
@@ -212,15 +213,14 @@ def stop_following(follow_id):
 @app.route('/users/profile', methods=["GET", "POST"])
 def profile():
     """Update profile for current user."""
-    
-    user_info = User.query.get_or_404(session["curr_user"])
+
+    user_info = g.user
 
     form = EditUserForm(obj=user_info)
-    user = User.authenticate(form.username.data,
-                                 form.password.data)
 
     if form.validate_on_submit():
-
+        user = User.authenticate(g.user.username,
+                                 form.password.data)
         if user:
             user_info.username = form.username.data
             user_info.email = form.email.data
