@@ -3,6 +3,7 @@ import os
 from flask import Flask, render_template, request, flash, redirect, session, g
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy import or_
 
 from forms import UserAddForm, LoginForm, MessageForm, EditUserForm
 from models import db, connect_db, User, Message
@@ -320,20 +321,20 @@ def homepage():
         just_messages = [item.id for message in user_messages for item in message]
         messages = (Message
                     .query
-                    .filter(Message.user_id.in_(just_messages))
+                    .filter(or_(Message.user_id.in_(just_messages), (Message.user_id == g.user.id)))
                     .order_by(Message.timestamp.desc())
                     .limit(100)
                     .all())
 
-        personal_message = (Message
-                .query
-                .filter(Message.user_id == g.user.id)
-                .order_by(Message.timestamp.desc())
-                .limit(100)
-                .all())
+        # personal_message = (Message
+        #         .query
+        #         .filter(Message.user_id == g.user.id)
+        #         .order_by(Message.timestamp.desc())
+        #         .limit(100)
+        #         .all())
 
-        for message in personal_message:
-            messages.append(message)
+        # for message in personal_message:
+        #     messages.append(message)
 
         return render_template('home.html', messages=messages)
 
