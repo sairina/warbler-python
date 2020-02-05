@@ -313,18 +313,34 @@ def homepage():
     - anon users: no messages
     - logged in: 100 most recent messages of followed_users
     """
-
     if g.user:
+
+
+        user_messages = [user.messages for user in g.user.following]
+        just_messages = [item.id for message in user_messages for item in message]
         messages = (Message
                     .query
+                    .filter(Message.user_id.in_(just_messages))
                     .order_by(Message.timestamp.desc())
                     .limit(100)
                     .all())
+
+        personal_message = (Message
+                .query
+                .filter(Message.user_id == g.user.id)
+                .order_by(Message.timestamp.desc())
+                .limit(100)
+                .all())
+
+        for message in personal_message:
+            messages.append(message)
 
         return render_template('home.html', messages=messages)
 
     else:
         return render_template('home-anon.html')
+
+
 
 
 ##############################################################################
