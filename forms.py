@@ -28,6 +28,7 @@ class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[Length(min=6)])
 
+
 class EditUserForm(FlaskForm):
     """Update User Form"""
 
@@ -38,5 +39,3 @@ class EditUserForm(FlaskForm):
                                    validators=[Optional()])
     bio = StringField('(Optional) Bio')
     password = PasswordField('Password', validators=[Length(min=6)])
-
-

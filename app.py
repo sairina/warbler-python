@@ -6,7 +6,8 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy import or_
 
 from forms import UserAddForm, LoginForm, MessageForm, EditUserForm
-from models import db, connect_db, User, Message
+from models import (db, connect_db, User, Message, Favorite,
+                    DEFALUT_HEADER_IMG, DEFAULT_PROFILE_IMG)
 
 CURR_USER_KEY = "curr_user"
 
@@ -225,8 +226,8 @@ def profile():
         if user:
             user_info.username = form.username.data
             user_info.email = form.email.data
-            user_info.image_url = form.image_url.data
-            user_info.header_image_url = form.header_image_url.data
+            user_info.image_url = form.image_url.data or DEFAULT_PROFILE_IMG
+            user_info.header_image_url = form.header_image_url.data or DEFALUT_HEADER_IMG
             user_info.bio = form.bio.data
 
             db.session.commit()
@@ -315,33 +316,21 @@ def homepage():
     - logged in: 100 most recent messages of followed_users
     """
     if g.user:
-
-
         user_messages = [user.messages for user in g.user.following]
-        just_messages = [item.id for message in user_messages for item in message]
+        just_messages = [
+            item.id for message in user_messages for item in message]
         messages = (Message
                     .query
-                    .filter(or_(Message.user_id.in_(just_messages), (Message.user_id == g.user.id)))
+                    .filter(or_(Message.user_id.in_(just_messages),
+                                (Message.user_id == g.user.id)))
                     .order_by(Message.timestamp.desc())
                     .limit(100)
                     .all())
-
-        # personal_message = (Message
-        #         .query
-        #         .filter(Message.user_id == g.user.id)
-        #         .order_by(Message.timestamp.desc())
-        #         .limit(100)
-        #         .all())
-
-        # for message in personal_message:
-        #     messages.append(message)
 
         return render_template('home.html', messages=messages)
 
     else:
         return render_template('home-anon.html')
-
-
 
 
 ##############################################################################
