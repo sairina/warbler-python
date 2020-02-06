@@ -105,11 +105,27 @@ class User(db.Model):
         return len(found_user_list) == 1
 
     def is_following(self, other_user):
-        """Is this user following `other_use`?"""
+        """Is this user following `other_user`?"""
 
         found_user_list = [
             user for user in self.following if user == other_user]
         return len(found_user_list) == 1
+
+    def like_message(self, message):
+        if not self.has_liked_message(message):
+            like = Favorite(user_id=self.id, message_id=message.id)
+            db.session.add(like)
+
+    def unlike_message(self, message):
+        if self.has_liked_message(message):
+            Favorite.query.filter_by(
+                user_id=self.id,
+                message_id=message.id).delete()
+
+    def has_liked_message(self, message):
+        return Favorite.query.filter(
+            Favorite.user_id == self.id,
+            Favorite.message_id == message.id).count() > 0
 
     @classmethod
     def signup(cls, username, email, password, image_url):
@@ -181,7 +197,7 @@ class Message(db.Model):
     user = db.relationship('User')
 
     users = db.relationship(
-        'User', secondary='favorites', backref='user_messages') # I was calling it messages, which was already being used
+        'User', secondary='favorites', backref='fav_messages') # I was calling it messages, which was already being used
 
 
 class Favorite(db.Model):

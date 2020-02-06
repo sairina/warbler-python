@@ -37,7 +37,6 @@
 
     <div class="col-lg-6 col-md-8 col-sm-12">
         <ul class="list-group" id="messages">
-            <form action="#" method="POST">
                 {% for msg in messages %}
                 <li class="list-group-item">
                     <a href="/messages/{{ msg.id  }}" class="message-link" />
@@ -47,12 +46,19 @@
                     <div class="message-area">
                         <a href="/users/{{ msg.user.id }}">@{{ msg.user.username }}</a>
                         <span class="text-muted">{{ msg.timestamp.strftime('%d %B %Y') }}</span>
-                        <i class="far fa-heart"></i>
+                        <form action="/like/{{ msg.id }}/{{ action }}" method="POST">
+                            {% if g.user.has_liked_message(msg) %}
+                            <a href="{{ url_for('like_unlike', message_id=msg.id, action='unlike') }}"><i
+                                    class="fas fa-heart"></i></a>
+                            {% else %}
+                           <a href="{{ url_for('like_unlike', message_id=msg.id, action='like') }}"><i
+                                   class="far fa-heart"></i></a>
+                            {% endif %}
+                        </form>
                         <p>{{ msg.text }}</p>
                     </div>
                 </li>
                 {% endfor %}
-            </form>
         </ul>
     </div>
 

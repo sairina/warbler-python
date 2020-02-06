@@ -303,6 +303,17 @@ def messages_destroy(message_id):
 
     return redirect(f"/users/{g.user.id}")
 
+@app.route('/like/<int:message_id>/<action>', methods=["POST"])
+def like_unlike(message_id, action):
+    message = Message.query.filter_by(id=message_id).first_or_404()
+    if action == 'like':
+        current_user.like_message(message)
+        db.session.commit()
+    if action == 'unlike':
+        current_user.unlike_message(message)
+        db.session.commit()
+    return redirect('/')
+
 
 ##############################################################################
 # Homepage and error pages
@@ -316,6 +327,7 @@ def homepage():
     - logged in: 100 most recent messages of followed_users
     """
     if g.user:
+
         user_messages = [user.messages for user in g.user.following]
         just_messages = [
             item.id for message in user_messages for item in message]
