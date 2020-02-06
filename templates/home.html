@@ -47,11 +47,11 @@
                     <a href="/users/{{ msg.user.id }}">@{{ msg.user.username }}</a>
                     <span class="text-muted">{{ msg.timestamp.strftime('%d %B %Y') }}</span>
                     <form style="display:inline-block;" action="/like/{{ msg.id }}/{{ action }}" method="POST">
-                        {% if g.user.has_liked_message(msg) %}
+                        {% if g.user.id != msg.user.id%} {% if g.user.has_liked_message(msg) %}
                         <a href="{{ url_for('like_unlike', message_id=msg.id, action='unlike') }}"><i
-                                    class="fas fa-heart"></i></a> {% else %}
+                                class="fas fa-heart"></i></a> {% else %}
                         <a href="{{ url_for('like_unlike', message_id=msg.id, action='like') }}"><i
-                                   class="far fa-heart"></i></a> {% endif %}
+                                class="far fa-heart"></i></a> {% endif %} {% endif %}
                     </form>
                     <p>{{ msg.text }}</p>
                 </div>

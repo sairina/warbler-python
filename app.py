@@ -319,12 +319,14 @@ def messages_destroy(message_id):
 @app.route('/like/<int:message_id>/<action>')
 def like_unlike(message_id, action):
     message = Message.query.filter_by(id=message_id).first_or_404()
+
     if action == 'like':
         g.user.like_message(message)
         db.session.commit()
     if action == 'unlike':
         g.user.unlike_message(message)
         db.session.commit()
+    
     return redirect('/')
 
 
