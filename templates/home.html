@@ -37,28 +37,26 @@
 
     <div class="col-lg-6 col-md-8 col-sm-12">
         <ul class="list-group" id="messages">
-                {% for msg in messages %}
-                <li class="list-group-item">
-                    <a href="/messages/{{ msg.id  }}" class="message-link" />
-                    <a href="/users/{{ msg.user.id }}">
-                        <img src="{{ msg.user.image_url }}" alt="" class="timeline-image">
-                    </a>
-                    <div class="message-area">
-                        <a href="/users/{{ msg.user.id }}">@{{ msg.user.username }}</a>
-                        <span class="text-muted">{{ msg.timestamp.strftime('%d %B %Y') }}</span>
-                        <form action="/like/{{ msg.id }}/{{ action }}" method="POST">
-                            {% if g.user.has_liked_message(msg) %}
-                            <a href="{{ url_for('like_unlike', message_id=msg.id, action='unlike') }}"><i
-                                    class="fas fa-heart"></i></a>
-                            {% else %}
-                           <a href="{{ url_for('like_unlike', message_id=msg.id, action='like') }}"><i
-                                   class="far fa-heart"></i></a>
-                            {% endif %}
-                        </form>
-                        <p>{{ msg.text }}</p>
-                    </div>
-                </li>
-                {% endfor %}
+            {% for msg in messages %}
+            <li class="list-group-item">
+                <a href="/messages/{{ msg.id  }}" class="message-link" />
+                <a href="/users/{{ msg.user.id }}">
+                    <img src="{{ msg.user.image_url }}" alt="" class="timeline-image">
+                </a>
+                <div class="message-area">
+                    <a href="/users/{{ msg.user.id }}">@{{ msg.user.username }}</a>
+                    <span class="text-muted">{{ msg.timestamp.strftime('%d %B %Y') }}</span>
+                    <form style="display:inline-block;" action="/like/{{ msg.id }}/{{ action }}" method="POST">
+                        {% if g.user.has_liked_message(msg) %}
+                        <a href="{{ url_for('like_unlike', message_id=msg.id, action='unlike') }}"><i
+                                    class="fas fa-heart"></i></a> {% else %}
+                        <a href="{{ url_for('like_unlike', message_id=msg.id, action='like') }}"><i
+                                   class="far fa-heart"></i></a> {% endif %}
+                    </form>
+                    <p>{{ msg.text }}</p>
+                </div>
+            </li>
+            {% endfor %}
         </ul>
     </div>
 

@@ -29,9 +29,8 @@
                     </li>
                     <li class="stat">
                         <p class="small">Likes</p>
-                        <!-- FIX MEEEEEEEEEEE -->
                         <h4>
-                            <a href="/users/{{ user.id }}/followers">{{ user.followers | length }}</a>
+                            <a href="/users/{{ user.id }}/likes">{{ user.fav_messages | length }}</a>
                         </h4>
                     </li>
                     <div class="ml-auto">
