@@ -91,8 +91,6 @@ class User(db.Model):
         secondaryjoin=(Follows.user_being_followed_id == id)
     )
 
-    # favorites = db.relationship(
-    #     'Favorite', secondary='favorites', backref='users') TOOK THIS OUT
 
     def __repr__(self):
         return f"<User #{self.id}: {self.username}, {self.email}>"
@@ -197,7 +195,7 @@ class Message(db.Model):
     user = db.relationship('User')
 
     users = db.relationship(
-        'User', secondary='favorites', backref='fav_messages') # I was calling it messages, which was already being used
+        'User', secondary='favorites', backref='fav_messages')
 
 
 class Favorite(db.Model):

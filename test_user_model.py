@@ -28,6 +28,17 @@ from app import app
 
 db.create_all()
 
+user1 = User(
+    email="test@test.com",
+    username="testuser",
+    password="HASHED_PASSWORD"
+)
+
+user2 = User(
+    email="test2@test.com",
+    username="testuser2",
+    password="HASHED_PASSWORD",
+)
 
 class UserModelTestCase(TestCase):
     """Test views for messages."""
@@ -56,3 +67,20 @@ class UserModelTestCase(TestCase):
         # User should have no messages & no followers
         self.assertEqual(len(u.messages), 0)
         self.assertEqual(len(u.followers), 0)
+
+    def test_repr(self):
+        """Test for a repr"""
+        self.assertEqual(repr(user1), f'<User #{user1.id}: testuser, test@test.com>')
+
+    def test_is_following(self):
+        """Test if a user is following another user"""
+        user1.following.append(user2)
+        db.session.commit()
+
+        # self.assertEqual(user2.is_following(self, user1), False)
+        self.assertEqual(self.is_following(self,user2), True)
+
+
+
+
+
