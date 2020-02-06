@@ -303,14 +303,15 @@ def messages_destroy(message_id):
 
     return redirect(f"/users/{g.user.id}")
 
-@app.route('/like/<int:message_id>/<action>', methods=["POST"])
+
+@app.route('/like/<int:message_id>/<action>')
 def like_unlike(message_id, action):
     message = Message.query.filter_by(id=message_id).first_or_404()
     if action == 'like':
-        current_user.like_message(message)
+        g.user.like_message(message)
         db.session.commit()
     if action == 'unlike':
-        current_user.unlike_message(message)
+        g.user.unlike_message(message)
         db.session.commit()
     return redirect('/')
 
@@ -328,12 +329,10 @@ def homepage():
     """
     if g.user:
 
-        user_messages = [user.messages for user in g.user.following]
-        just_messages = [
-            item.id for message in user_messages for item in message]
+        following_ids = [user.id for user in g.user.following]
         messages = (Message
                     .query
-                    .filter(or_(Message.user_id.in_(just_messages),
+                    .filter(or_(Message.user_id.in_(following_ids),
                                 (Message.user_id == g.user.id)))
                     .order_by(Message.timestamp.desc())
                     .limit(100)
