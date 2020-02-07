@@ -45,14 +45,12 @@
                 </a>
                 <div class="message-area">
                     <a href="/users/{{ msg.user.id }}">@{{ msg.user.username }}</a>
-                    <span class="text-muted">{{ msg.timestamp.strftime('%d %B %Y') }}</span>
-                    <form style="display:inline-block;" action="/like/{{ msg.id }}/{{ action }}" method="POST">
-                        {% if g.user.id != msg.user.id%} {% if g.user.has_liked_message(msg) %}
-                        <a href="{{ url_for('like_unlike', message_id=msg.id, action='unlike') }}"><i
+                    <span class="text-muted">{{ msg.timestamp.strftime('%d %B %Y') }}</span> {% if g.user.id != msg.user.id%} {% if g.user.has_liked_message(msg) %}
+                    <a style="display:inline-block;" href="{{ url_for('like_unlike', message_id=msg.id, action='unlike') }}"><i
                                 class="fas fa-heart"></i></a> {% else %}
-                        <a href="{{ url_for('like_unlike', message_id=msg.id, action='like') }}"><i
+                    <a style="display:inline-block;" href="{{ url_for('like_unlike', message_id=msg.id, action='like') }}"><i
                                 class="far fa-heart"></i></a> {% endif %} {% endif %}
-                    </form>
+
                     <p>{{ msg.text }}</p>
                 </div>
             </li>

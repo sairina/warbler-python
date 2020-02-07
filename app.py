@@ -116,7 +116,7 @@ def logout():
     """Handle logout of user."""
 
     do_logout()
-    flash("Successfully logged out")
+    flash("Successfully logged out", "success")
 
     return redirect("/")
 
@@ -319,13 +319,19 @@ def messages_destroy(message_id):
 @app.route('/like/<int:message_id>/<action>')
 def like_unlike(message_id, action):
     message = Message.query.filter_by(id=message_id).first_or_404()
+    message_author = User.query.get(message.user_id)
 
-    if g.user.id != message.user_id:
-        if action == 'like':
-            g.user.like_message(message)
-        if action == 'unlike':
-            g.user.unlike_message(message)
-        db.session.commit()
+    if g.user.is_following(message_author):
+        if g.user.id != message.user_id:
+            if action == 'like':
+                g.user.like_message(message)
+            if action == 'unlike':
+                g.user.unlike_message(message)
+            db.session.commit()
+    
+    else:
+        flash("You must be following the user to like their message!", "danger")
+    
     return redirect('/')
 
 
