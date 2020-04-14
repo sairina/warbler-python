@@ -255,9 +255,19 @@ def profile():
 def delete_user():
     """Delete user."""
 
+    print("user_id", g.user.id)
     if not g.user:
         flash("Access unauthorized.", "danger")
         return redirect("/")
+
+    # issue: could not delete user if user had created messages
+    # error was that user_id was "None" and db.session.commit() didn't run
+    # fix: delete all messages first, then delete g.user
+
+    msg = Message.query.filter(Message.user_id == g.user.id).all()
+    for each_msg in msg:
+        db.session.delete(each_msg)
+    db.session.commit()
 
     do_logout()
 
