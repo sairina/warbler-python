@@ -22,11 +22,7 @@ $ source ./venv/bin/activate
 ```
 $ pip install -r requirements.txt
 ```
-4. Start the server:
-```
-$ flask run
-```
-5. Create the _warbler_ and _warbler-test_ databases in PostgreSQL and load data:
+4. Create the _warbler_ and _warbler-test_ databases in PostgreSQL and load data:
 
 - Dev database and data:
 ```
@@ -38,6 +34,10 @@ $ psql warbler < data.sql
 ```
 $ createdb warbler-test
 $ psql warbler-test < data.sql
+```
+5. Start the server:
+```
+$ flask run
 ```
 
 ### Running Tests
