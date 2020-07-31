@@ -53,3 +53,5 @@ Specific test: `python -m unittest [testfile-name.js]`
 - [Flask-SQLAlchemy](https://flask-sqlalchemy.palletsprojects.com/en/2.x/) - extension for Flask to support SQLA ORM
 - [psycopog2](https://pypi.org/project/psycopg2/) - PostgreSQL adapter for Python
 - [Flask-WTF](https://flask-wtf.readthedocs.io/en/stable/) - form validation and rendering library for Python with Flask integration
+
+- a pair-programmed project
