@@ -54,4 +54,4 @@ Specific test: `python -m unittest [testfile-name.js]`
 - [psycopog2](https://pypi.org/project/psycopg2/) - PostgreSQL adapter for Python
 - [Flask-WTF](https://flask-wtf.readthedocs.io/en/stable/) - form validation and rendering library for Python with Flask integration
 
-#### A pair-programmed project!
+#### Made by Alaa Mohamed and Sairina Merino Tsui
