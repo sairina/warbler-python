@@ -1,5 +1,7 @@
-# Warbler 
-A Twitter clone with a cooler bird. 
+# Warbler
+A Twitter clone with a cooler bird.
+
+![Screenshot of Warbler sign-in page](static/images/warbler-home.png)
 
 ## Getting Started
 Follow the instructions below to get a copy of the project up and running on your machine for development and testing. See deployment for notes on how to deploy the project on a live system.
@@ -13,7 +15,7 @@ Follow the instructions below to get a copy of the project up and running on you
 
 ### Installing
 1. Clone the repo
-2. Create a venv (virtual environment) for the app by doing the following: 
+2. Create a venv (virtual environment) for the app by doing the following:
 ```
 $ python3 -m venv venv
 $ source ./venv/bin/activate
@@ -53,5 +55,3 @@ Specific test: `python -m unittest [testfile-name.js]`
 - [Flask-SQLAlchemy](https://flask-sqlalchemy.palletsprojects.com/en/2.x/) - extension for Flask to support SQLA ORM
 - [psycopog2](https://pypi.org/project/psycopg2/) - PostgreSQL adapter for Python
 - [Flask-WTF](https://flask-wtf.readthedocs.io/en/stable/) - form validation and rendering library for Python with Flask integration
-
-#### Made by Alaa Mohamed and Sairina Merino Tsui
